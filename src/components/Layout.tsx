@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, GraduationCap } from 'lucide-react';
+import { Menu, X, GraduationCap, Facebook, Instagram, Linkedin } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { CONTACT_INFO } from '../constants';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,10 +32,7 @@ const Navbar = () => {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`}>
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="bg-primary p-2 rounded-lg group-hover:rotate-12 transition-transform">
-            <GraduationCap className="text-white w-6 h-6" />
-          </div>
-          <span className="font-bold text-xl tracking-tight text-ink">Impact <span className="text-primary">Migration</span></span>
+          <img src="/logo/logo.png" alt="Impact Migration Logo" className="h-10 w-auto" />
         </Link>
 
         {/* Desktop Nav */}
@@ -101,20 +99,21 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 md:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-6">
-              <div className="bg-primary p-2 rounded-lg">
-                <GraduationCap className="text-white w-6 h-6" />
-              </div>
-              <span className="font-bold text-xl tracking-tight">Impact <span className="text-primary">Migration</span></span>
+              <img src="/logo/logo.png" alt="Impact Migration Logo" className="h-10 w-auto" />
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
               Empowering Nigerian students to achieve their dreams of studying abroad with confidence and ease.
             </p>
             <div className="flex gap-4">
-              {/* Social Icons Placeholder */}
-              <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition-colors cursor-pointer">F</div>
-              <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition-colors cursor-pointer">T</div>
-              <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition-colors cursor-pointer">I</div>
-              <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition-colors cursor-pointer">L</div>
+              <a href="https://www.facebook.com/impactmigrations?mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition-colors cursor-pointer">
+                <Facebook className="w-4 h-4 text-white" />
+              </a>
+              <a href="https://www.instagram.com/impactmigrations?igsh=a3RkYmV6Mm16NHFl" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition-colors cursor-pointer">
+                <Instagram className="w-4 h-4 text-white" />
+              </a>
+              <a href="https://www.linkedin.com/company/impact-migration-consults" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition-colors cursor-pointer">
+                <Linkedin className="w-4 h-4 text-white" />
+              </a>
             </div>
           </div>
 
@@ -135,8 +134,8 @@ const Footer = () => {
               <li><Link to="/destinations/uk" className="hover:text-primary transition-colors">United Kingdom</Link></li>
               <li><Link to="/destinations/canada" className="hover:text-primary transition-colors">Canada</Link></li>
               <li><Link to="/destinations/usa" className="hover:text-primary transition-colors">USA</Link></li>
-              <li><Link to="/destinations/australia" className="hover:text-primary transition-colors">Australia</Link></li>
-              <li><Link to="/destinations/germany" className="hover:text-primary transition-colors">Germany</Link></li>
+              <li><Link to="/destinations/malta" className="hover:text-primary transition-colors">Malta</Link></li>
+              <li><Link to="/destinations/poland" className="hover:text-primary transition-colors">Poland</Link></li>
             </ul>
           </div>
 
@@ -145,15 +144,23 @@ const Footer = () => {
             <ul className="flex flex-col gap-4 text-gray-400 text-sm">
               <li className="flex gap-3">
                 <span className="text-primary">📍</span>
-                123 Ikeja Way, Lagos, Nigeria
+                {CONTACT_INFO.address}
               </li>
               <li className="flex gap-3">
                 <span className="text-primary">📞</span>
-                +234 800 123 4567
+                <div className="flex flex-col gap-1">
+                  {CONTACT_INFO.phones.map((phone, index) => (
+                    <a key={index} href={`tel:${phone}`} className="hover:text-primary transition-colors">
+                      {phone}
+                    </a>
+                  ))}
+                </div>
               </li>
               <li className="flex gap-3">
                 <span className="text-primary">✉️</span>
-                info@impactmigration.com
+                <a href={`mailto:${CONTACT_INFO.email}`} className="hover:text-primary transition-colors">
+                  {CONTACT_INFO.email}
+                </a>
               </li>
             </ul>
           </div>

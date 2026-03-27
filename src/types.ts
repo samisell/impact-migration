@@ -30,6 +30,16 @@ export interface Lead {
   createdAt?: string;
 }
 
+export interface ContactMessage {
+  $id?: string;
+  fullName: string;
+  email: string;
+  subject: string;
+  message: string;
+  createdAt?: string;
+}
+
+
 export interface BlogPost {
   id: string;
   title: string;

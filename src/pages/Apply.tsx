@@ -21,8 +21,8 @@ const Apply = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const databaseId = import.meta.env.VITE_APPWRITE_DATABASE_ID;
-  const collectionId = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
+  const databaseId = import.meta.env.VITE_APPWRITE_DATABASE_ID || import.meta.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID;
+  const collectionId = import.meta.env.VITE_APPWRITE_APPLICATIONS_COLLECTION_ID || import.meta.env.NEXT_PUBLIC_APPWRITE_APPLICATIONS_COLLECTION_ID;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;

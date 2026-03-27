@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, CheckCircle, Star, GraduationCap, FileText, Award, Plane } from 'lucide-react';
-import { COUNTRIES, SERVICES, PARTNER_LOGOS } from '../constants';
+import { COUNTRIES, SERVICES, PARTNER_LOGOS, HERO_IMAGE } from '../constants';
 
 const Home = () => {
   const containerVariants = {
@@ -75,10 +75,9 @@ const Home = () => {
           >
             <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
               <img
-                src="https://picsum.photos/seed/study-abroad-student/800/1000"
+                src={HERO_IMAGE}
                 alt="Happy Student"
                 className="w-full h-auto object-cover"
-                referrerPolicy="no-referrer"
               />
             </div>
             {/* Decorative Elements */}
@@ -110,13 +109,13 @@ const Home = () => {
           <div className="relative">
             <div className="grid grid-cols-2 gap-4">
               <img
-                src="https://picsum.photos/seed/university-campus/400/500"
+                src="/about-img1.jpg"
                 alt="Impact Migration Team"
                 className="rounded-2xl shadow-lg mt-12"
                 referrerPolicy="no-referrer"
               />
               <img
-                src="https://picsum.photos/seed/graduation-day/400/500"
+                src="/about-img2.jpg"
                 alt="Impact Migration Success"
                 className="rounded-2xl shadow-lg"
                 referrerPolicy="no-referrer"
