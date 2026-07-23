@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { GraduationCap, FileText, Award, Plane, ArrowRight, CheckCircle } from 'lucide-react';
+import { GraduationCap, FileText, Award, Plane, Home, ArrowRight, CheckCircle } from 'lucide-react';
 import { SERVICES } from '../constants';
 import { Link } from 'react-router-dom';
 
@@ -41,6 +41,7 @@ const Services = () => {
                 {service.icon === 'GraduationCap' && <GraduationCap className="text-primary w-10 h-10 group-hover:text-white" />}
                 {service.icon === 'FileText' && <FileText className="text-primary w-10 h-10 group-hover:text-white" />}
                 {service.icon === 'Award' && <Award className="text-primary w-10 h-10 group-hover:text-white" />}
+                {service.icon === 'Home' && <Home className="text-primary w-10 h-10 group-hover:text-white" />}
                 {service.icon === 'Plane' && <Plane className="text-primary w-10 h-10 group-hover:text-white" />}
               </div>
               <h3 className="text-3xl font-bold text-ink mb-6">{service.title}</h3>

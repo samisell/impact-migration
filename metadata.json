@@ -1,5 +1,8 @@
 {
   "name": "Impact Migration",
-  "description": "A modern, responsive frontend website for a study abroad agency based in Lagos, Nigeria.",
-  "requestFramePermissions": ["geolocation"]
+  "description": "Educational consultancy platform empowering Nigerian students to study abroad.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

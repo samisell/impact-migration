@@ -23,10 +23,55 @@ export interface Lead {
   fullName: string;
   email: string;
   phone: string;
-  preferredCountry: string;
+  courseType?: string;
   courseOfInterest: string;
-  educationLevel: string;
+  ieltsScore?: string;
+  preferredCountry?: string;
+  educationLevel?: string;
   message: string;
+  createdAt?: string;
+}
+
+export interface PartnerLead {
+  $id?: string;
+  type: string;
+  corporateName: string;
+  corporateAddress: string;
+  corporateEmail: string;
+  corporatePhone: string;
+  yearOfRegistration: string;
+  numberOfEmployees: string;
+  contactPersonName: string;
+  contactPersonPosition: string;
+  contactPersonPhone: string;
+  contactPersonWhatsapp: string;
+  contactPersonEmail: string;
+  createdAt?: string;
+}
+
+export interface RegisterUser {
+  firstName: string;
+  surname: string;
+  email: string;
+  phone: string;
+  countryOfResidence: string;
+  password?: string;
+}
+
+export interface AppointmentLead {
+  $id?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  destination: string;
+  startDate: string;
+  counsellingMode: string;
+  fundingSource: string;
+  studyLevel: string;
+  agreedTerms: boolean;
+  allowContact: boolean;
+  receiveUpdates: boolean;
   createdAt?: string;
 }
 

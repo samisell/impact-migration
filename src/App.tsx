@@ -12,6 +12,9 @@ import Blog from './pages/Blog';
 import BlogDetail from './pages/BlogDetail';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import Appointment from './pages/Appointment';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 
@@ -42,6 +45,10 @@ const AppContent = () => {
         <Route path="/blog/:id" element={<BlogDetail />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsOfService />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/appointment" element={<Appointment />} />
+        <Route path="/book-appointment" element={<Appointment />} />
       </Routes>
     </Layout>
   );

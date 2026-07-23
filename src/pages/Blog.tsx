@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { ArrowRight, Calendar, Tag } from 'lucide-react';
 import { BLOG_POSTS } from '../constants';
 import { Link } from 'react-router-dom';
+import { NewsletterSubscribe } from '../components/NewsletterSubscribe';
 
 const Blog = () => {
   return (
@@ -85,28 +86,9 @@ const Blog = () => {
       </section>
 
       {/* Newsletter Section */}
-      <section className="container mx-auto px-4 mt-32">
-        <div className="bg-primary rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
-          <div className="relative z-10 max-w-2xl mx-auto">
-            <h2 className="text-4xl font-bold text-white mb-8">Subscribe to Our Newsletter</h2>
-            <p className="text-white/80 text-lg mb-12">
-              Get the latest study abroad tips and guides delivered straight to your inbox.
-            </p>
-            <form className="flex flex-col sm:flex-row gap-4">
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="flex-grow bg-white/10 border-2 border-white/20 rounded-2xl px-8 py-4 text-white placeholder:text-white/50 focus:bg-white/20 focus:outline-none transition-all"
-              />
-              <button className="bg-white text-primary px-10 py-4 rounded-2xl font-bold hover:bg-gray-100 transition-colors">
-                Subscribe
-              </button>
-            </form>
-          </div>
-          <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/20 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
-        </div>
-      </section>
+      <div className="container mx-auto px-4 mt-24">
+        <NewsletterSubscribe variant="banner" />
+      </div>
     </div>
   );
 };

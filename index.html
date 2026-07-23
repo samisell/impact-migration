@@ -1,10 +1,29 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
+    <script>
+      (function() {
+        try {
+          var _fetch = window.fetch;
+          Object.defineProperty(window, 'fetch', {
+            get: function() {
+              return _fetch;
+            },
+            set: function(val) {
+              _fetch = val;
+            },
+            configurable: true,
+            enumerable: true
+          });
+        } catch (e) {
+          // Ignore
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/logo/favicon.png" />
+    <link rel="icon" type="image/png" href="/logo/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Impact Migration - Study Abroad Agency</title>
+    <title>Impact Migration - Empowering Nigerian Students to Study Abroad</title>
   </head>
   <body>
     <div id="root"></div>

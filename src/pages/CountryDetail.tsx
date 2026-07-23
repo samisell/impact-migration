@@ -1,8 +1,167 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { CheckCircle, ArrowRight, GraduationCap, DollarSign, FileText, Home as HomeIcon } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { CheckCircle, ArrowRight, GraduationCap, ChevronLeft, ChevronRight, Maximize2, X, Sparkles } from 'lucide-react';
 import { COUNTRIES } from '../constants';
+
+const TESTIMONIAL_IMAGES = [
+  '/test1.png',
+  '/test2.png',
+  '/test3.png',
+  '/test4.png',
+  '/test5.png',
+  '/test6.png',
+  '/test7.png',
+];
+
+const DestinationTestimonialSlider = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const total = TESTIMONIAL_IMAGES.length;
+
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % total);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, total]);
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + total) % total);
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % total);
+  };
+
+  return (
+    <div className="bg-white p-6 sm:p-8 rounded-[2.5rem] shadow-lg border border-gray-100">
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-bold uppercase tracking-wider mb-2">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Visa Approvals</span>
+          </div>
+          <h3 className="text-xl font-bold text-ink">Success Stories</h3>
+        </div>
+        <span className="text-xs font-semibold text-muted bg-neutral px-3 py-1 rounded-full border border-gray-200">
+          {currentIndex + 1} / {total}
+        </span>
+      </div>
+
+      {/* Main Slide Image */}
+      <div 
+        className="relative rounded-2xl overflow-hidden bg-gray-100 border border-gray-100 shadow-sm group cursor-pointer aspect-[3/4] mb-6"
+        onMouseEnter={() => setIsAutoPlaying(false)}
+        onMouseLeave={() => setIsAutoPlaying(true)}
+        onClick={() => setSelectedImage(TESTIMONIAL_IMAGES[currentIndex])}
+      >
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={currentIndex}
+            src={TESTIMONIAL_IMAGES[currentIndex]}
+            alt={`Visa Success Story ${currentIndex + 1}`}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.04 }}
+            transition={{ duration: 0.35 }}
+            className="w-full h-full object-cover"
+            referrerPolicy="no-referrer"
+          />
+        </AnimatePresence>
+
+        {/* Zoom badge overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-4">
+          <span className="text-white text-xs font-semibold flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
+            <Maximize2 className="w-3.5 h-3.5" />
+            Expand Testimonial
+          </span>
+        </div>
+
+        {/* Navigation buttons overlaid on image */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePrev();
+          }}
+          className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 text-ink shadow-md hover:bg-primary hover:text-white transition-all flex items-center justify-center border border-gray-200"
+          aria-label="Previous testimonial"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleNext();
+          }}
+          className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 text-ink shadow-md hover:bg-primary hover:text-white transition-all flex items-center justify-center border border-gray-200"
+          aria-label="Next testimonial"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* Pagination Dots */}
+      <div className="flex justify-center items-center gap-1.5 mb-6">
+        {TESTIMONIAL_IMAGES.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setCurrentIndex(idx)}
+            className={`transition-all duration-300 rounded-full ${
+              idx === currentIndex
+                ? 'w-6 h-2 bg-primary'
+                : 'w-2 h-2 bg-gray-200 hover:bg-gray-400'
+            }`}
+            aria-label={`Go to slide ${idx + 1}`}
+          />
+        ))}
+      </div>
+
+      <Link to="/apply" className="btn-primary w-full flex justify-center items-center gap-2">
+        Start Application <ArrowRight size={18} />
+      </Link>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-3xl max-h-[90vh] flex flex-col items-center"
+            >
+              <button
+                onClick={() => setSelectedImage(null)}
+                aria-label="Close testimonial modal"
+                className="absolute top-3 right-3 z-10 w-10 h-10 rounded-full bg-black/70 text-white hover:bg-black flex items-center justify-center transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <img
+                src={selectedImage}
+                alt="Visa Success Full View"
+                className="max-h-[85vh] w-auto object-contain rounded-2xl shadow-2xl"
+                referrerPolicy="no-referrer"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 const CountryDetail = () => {
   const { slug } = useParams();
@@ -91,44 +250,7 @@ const CountryDetail = () => {
 
           <div className="lg:col-span-1">
             <div className="sticky top-32 space-y-8">
-              <div className="bg-white p-8 rounded-[2.5rem] shadow-lg border border-gray-100">
-                <h3 className="text-2xl font-bold text-ink mb-8">Quick Facts</h3>
-                <div className="space-y-8">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-primary/10 p-3 rounded-xl text-primary">
-                      <DollarSign size={24} />
-                    </div>
-                    <div>
-                      <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Tuition Range</p>
-                      <p className="text-lg font-bold text-ink">{country.tuitionRange}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-4">
-                    <div className="bg-primary/10 p-3 rounded-xl text-primary">
-                      <HomeIcon size={24} />
-                    </div>
-                    <div>
-                      <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Cost of Living</p>
-                      <p className="text-lg font-bold text-ink">{country.costOfLiving}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-4">
-                    <div className="bg-primary/10 p-3 rounded-xl text-primary">
-                      <FileText size={24} />
-                    </div>
-                    <div>
-                      <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Visa Type</p>
-                      <p className="text-lg font-bold text-ink">Student Visa (F-1/Tier 4/Study Permit)</p>
-                    </div>
-                  </div>
-                </div>
-                
-                <Link to="/apply" className="btn-primary w-full mt-12 flex justify-center items-center gap-2">
-                  Start Application <ArrowRight size={18} />
-                </Link>
-              </div>
+              <DestinationTestimonialSlider />
               
               <div className="bg-ink text-white p-10 rounded-[2.5rem] shadow-xl relative overflow-hidden">
                 <div className="relative z-10">

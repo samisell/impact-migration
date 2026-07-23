@@ -5,6 +5,7 @@ import { databases } from '../lib/appwrite';
 import { ID } from 'appwrite';
 import { ContactMessage } from '../types';
 import { CONTACT_INFO } from '../constants';
+import { sendEmailNotification } from '../lib/email';
 
 const Contact = () => {
   const [formData, setFormData] = useState<ContactMessage>({
@@ -32,6 +33,20 @@ const Contact = () => {
     setError(null);
 
     try {
+      // Send email notification to info@impactmigration.com
+      await sendEmailNotification({
+        formName: 'Contact Us Form',
+        subject: formData.subject || 'New Contact Inquiry',
+        senderName: formData.fullName,
+        senderEmail: formData.email,
+        data: {
+          'Full Name': formData.fullName,
+          'Email Address': formData.email,
+          'Subject': formData.subject,
+          'Message': formData.message
+        }
+      });
+
       if (databaseId && collectionId) {
         await databases.createDocument(
           databaseId,
@@ -43,9 +58,7 @@ const Contact = () => {
           }
         );
       } else {
-        // Mock success if Appwrite is not configured
         console.log('Appwrite not configured. Form data:', formData);
-        await new Promise((resolve) => setTimeout(resolve, 1500));
       }
       setIsSuccess(true);
       setFormData({ fullName: '', email: '', subject: '', message: '' });
@@ -100,15 +113,25 @@ const Contact = () => {
                     <Phone size={24} />
                   </div>
                   <div>
-                    <h4 className="font-bold text-ink mb-2">Phone Numbers</h4>
+                    <h4 className="font-bold text-ink mb-2">Call Us</h4>
                     <div className="space-y-1">
                       {CONTACT_INFO.phones.map((phone, index) => (
                         <p key={index} className="text-muted text-sm leading-relaxed">
-                          <a href={`tel:${phone}`} className="hover:text-primary transition-colors">
+                          <a href={`tel:${phone}`} className="hover:text-primary font-semibold transition-colors">
                             {phone}
                           </a>
                         </p>
                       ))}
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-gray-100">
+                      <a
+                        href={CONTACT_INFO.whatsapp}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-lg hover:bg-emerald-100 transition-colors"
+                      >
+                        <span>WhatsApp: {CONTACT_INFO.whatsappNumber}</span>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -120,7 +143,7 @@ const Contact = () => {
                   <div>
                     <h4 className="font-bold text-ink mb-2">Email Address</h4>
                     <p className="text-muted text-sm leading-relaxed">
-                      <a href={`mailto:${CONTACT_INFO.email}`} className="hover:text-primary transition-colors">
+                      <a href={`mailto:${CONTACT_INFO.email}`} className="hover:text-primary transition-colors font-semibold">
                         {CONTACT_INFO.email}
                       </a>
                     </p>
@@ -131,11 +154,45 @@ const Contact = () => {
 
             <div className="bg-ink text-white p-10 rounded-[2.5rem] shadow-xl">
               <h3 className="text-2xl font-bold mb-8">Follow Us</h3>
-              <div className="flex gap-6">
-                <a href="#" className="bg-white/10 w-12 h-12 rounded-xl flex items-center justify-center hover:bg-primary transition-colors"><Facebook size={24} /></a>
-                <a href="#" className="bg-white/10 w-12 h-12 rounded-xl flex items-center justify-center hover:bg-primary transition-colors"><Twitter size={24} /></a>
-                <a href="#" className="bg-white/10 w-12 h-12 rounded-xl flex items-center justify-center hover:bg-primary transition-colors"><Instagram size={24} /></a>
-                <a href="#" className="bg-white/10 w-12 h-12 rounded-xl flex items-center justify-center hover:bg-primary transition-colors"><Linkedin size={24} /></a>
+              <div className="flex gap-4">
+                <a
+                  href={CONTACT_INFO.socials.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/10 w-12 h-12 rounded-xl flex items-center justify-center hover:bg-primary transition-colors"
+                  aria-label="Facebook"
+                >
+                  <Facebook size={22} />
+                </a>
+                <a
+                  href={CONTACT_INFO.socials.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/10 w-12 h-12 rounded-xl flex items-center justify-center hover:bg-primary transition-colors"
+                  aria-label="Instagram"
+                >
+                  <Instagram size={22} />
+                </a>
+                <a
+                  href={CONTACT_INFO.socials.tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/10 w-12 h-12 rounded-xl flex items-center justify-center hover:bg-primary transition-colors"
+                  aria-label="TikTok"
+                >
+                  <svg className="w-5 h-5 fill-current text-white" viewBox="0 0 24 24">
+                    <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 1 1-2.096-2.8V9.41a6.332 6.332 0 1 0 5.541 6.262V9.432a8.2 8.2 0 0 0 4.77 1.526V7.522a4.83 4.83 0 0 1-1.000-.836z" />
+                  </svg>
+                </a>
+                <a
+                  href={CONTACT_INFO.socials.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/10 w-12 h-12 rounded-xl flex items-center justify-center hover:bg-primary transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin size={22} />
+                </a>
               </div>
             </div>
           </div>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, Globe } from 'lucide-react';
 import { COUNTRIES } from '../constants';
+import { TestimonialSlider } from '../components/TestimonialSlider';
 
 const Destinations = () => {
   return (
@@ -77,6 +78,11 @@ const Destinations = () => {
             </Link>
           </div>
         </div>
+      </section>
+
+      {/* Testimonial Slide Images Section */}
+      <section className="mt-24">
+        <TestimonialSlider />
       </section>
     </div>
   );

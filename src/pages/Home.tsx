@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ArrowRight, CheckCircle, Star, GraduationCap, FileText, Award, Plane } from 'lucide-react';
+import { ArrowRight, CheckCircle, Star, GraduationCap, FileText, Award, Plane, Home as HomeIcon } from 'lucide-react';
 import { COUNTRIES, SERVICES, PARTNER_LOGOS, HERO_IMAGE } from '../constants';
+import { TestimonialSlider } from '../components/TestimonialSlider';
+import { HeroSlider } from '../components/HeroSlider';
+import { StatsSection } from '../components/StatsSection';
 
 const Home = () => {
   const containerVariants = {
@@ -23,85 +26,10 @@ const Home = () => {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center pt-20 pb-20 bg-gradient-to-br from-primary/5 to-white overflow-hidden">
-        <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="z-10"
-          >
-            <span className="inline-block bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-semibold mb-6">
-              Trusted Study Abroad Agency in Lagos
-            </span>
-            <h1 className="text-5xl lg:text-7xl font-bold text-ink leading-tight mb-6">
-              Study Abroad with <span className="text-primary">Confidence</span>
-            </h1>
-            <p className="text-muted text-lg lg:text-xl mb-10 leading-relaxed max-w-lg">
-              Empowering Nigerian students to achieve their dreams of studying in top universities across the UK, Canada, USA, and more.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/apply" className="btn-primary flex items-center justify-center gap-2">
-                Apply Now <ArrowRight size={18} />
-              </Link>
-              <Link to="/destinations" className="btn-outline flex items-center justify-center gap-2">
-                Explore Destinations
-              </Link>
-            </div>
-            
-            <div className="mt-12 flex items-center gap-6">
-              <div className="flex -space-x-3">
-                {[1, 2, 3, 4].map((i) => (
-                  <img
-                    key={i}
-                    src={`https://i.pravatar.cc/150?u=${i}`}
-                    alt="Student"
-                    className="w-10 h-10 rounded-full border-2 border-white shadow-sm"
-                    referrerPolicy="no-referrer"
-                  />
-                ))}
-              </div>
-              <p className="text-sm text-muted">
-                <span className="font-bold text-ink">500+</span> Students placed successfully
-              </p>
-            </div>
-          </motion.div>
+      <HeroSlider />
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-            className="relative"
-          >
-            <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
-              <img
-                src={HERO_IMAGE}
-                alt="Happy Student"
-                className="w-full h-auto object-cover"
-              />
-            </div>
-            {/* Decorative Elements */}
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl z-0"></div>
-            <div className="absolute -bottom-10 -left-10 w-60 h-60 bg-accent/20 rounded-full blur-3xl z-0"></div>
-            
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-1/4 -left-12 bg-white p-4 rounded-2xl shadow-xl z-20 hidden md:block"
-            >
-              <div className="flex items-center gap-3">
-                <div className="bg-green-100 p-2 rounded-lg">
-                  <CheckCircle className="text-primary w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-xs text-muted font-medium">Visa Success Rate</p>
-                  <p className="text-sm font-bold text-ink">98.5% Success</p>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+      {/* Key Stats Section */}
+      <StatsSection />
 
       {/* About Section */}
       <section className="py-24 bg-white">
@@ -109,16 +37,22 @@ const Home = () => {
           <div className="relative">
             <div className="grid grid-cols-2 gap-4">
               <img
-                src="/about-img1.jpg"
+                src="/diversity-students-graduation-success-celebration-concept.jpg"
                 alt="Impact Migration Team"
-                className="rounded-2xl shadow-lg mt-12"
+                className="rounded-2xl shadow-lg mt-12 h-64 object-cover"
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80";
+                }}
               />
               <img
-                src="/about-img2.jpg"
+                src="/young-adults-meeting-up-study.jpg"
                 alt="Impact Migration Success"
-                className="rounded-2xl shadow-lg"
+                className="rounded-2xl shadow-lg h-64 object-cover"
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80";
+                }}
               />
             </div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-white p-8 rounded-2xl shadow-2xl text-center">
@@ -203,13 +137,14 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {SERVICES.map((service) => (
               <div key={service.id} className="card group hover:-translate-y-2">
                 <div className="bg-primary/10 w-16 h-16 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-primary transition-colors">
                   {service.icon === 'GraduationCap' && <GraduationCap className="text-primary w-8 h-8 group-hover:text-white" />}
                   {service.icon === 'FileText' && <FileText className="text-primary w-8 h-8 group-hover:text-white" />}
                   {service.icon === 'Award' && <Award className="text-primary w-8 h-8 group-hover:text-white" />}
+                  {service.icon === 'Home' && <HomeIcon className="text-primary w-8 h-8 group-hover:text-white" />}
                   {service.icon === 'Plane' && <Plane className="text-primary w-8 h-8 group-hover:text-white" />}
                 </div>
                 <h3 className="text-xl font-bold text-ink mb-4">{service.title}</h3>
@@ -222,59 +157,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-24 bg-neutral">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <span className="text-primary font-bold uppercase tracking-widest text-sm mb-4 block">Testimonials</span>
-            <h2 className="text-4xl font-bold text-ink mb-6">What Our Students Say</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Chidi Okoro',
-                university: 'University of Hertfordshire, UK',
-                text: 'Impact Migration made my dream of studying in the UK a reality. Their visa assistance was top-notch and I got my visa in record time.',
-                image: 'https://i.pravatar.cc/150?u=chidi'
-              },
-              {
-                name: 'Amina Bello',
-                university: 'York University, Canada',
-                text: 'The counseling session I had with Impact Migration was eye-opening. They helped me choose the right course and university that fit my career goals.',
-                image: 'https://i.pravatar.cc/150?u=amina'
-              },
-              {
-                name: 'Tunde Williams',
-                university: 'Arizona State University, USA',
-                text: 'I highly recommend Impact Migration for anyone looking to study abroad. They are professional, transparent, and very helpful throughout the process.',
-                image: 'https://i.pravatar.cc/150?u=tunde'
-              }
-            ].map((testimonial, i) => (
-              <div key={i} className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-                <div className="flex gap-1 mb-6">
-                  {[1, 2, 3, 4, 5].map((s) => <Star key={s} className="text-yellow-400 w-4 h-4 fill-current" />)}
-                </div>
-                <p className="text-ink font-medium italic mb-8 leading-relaxed">
-                  "{testimonial.text}"
-                </p>
-                <div className="flex items-center gap-4">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div>
-                    <h4 className="font-bold text-ink">{testimonial.name}</h4>
-                    <p className="text-xs text-muted">{testimonial.university}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Testimonials / Success Stories Section */}
+      <TestimonialSlider />
 
       {/* Partners Section - Carousel Slider */}
       <section className="py-20 bg-white border-y border-gray-100 overflow-hidden">
@@ -289,13 +173,19 @@ const Home = () => {
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
           >
             {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((logo, index) => (
-              <div key={index} className="flex flex-col items-center gap-2 grayscale hover:grayscale-0 transition-all opacity-60 hover:opacity-100 px-4">
-                <img
-                  src={logo.url}
-                  alt={logo.name}
-                  className="h-12 w-auto object-contain"
-                  referrerPolicy="no-referrer"
-                />
+              <div key={index} className="flex flex-col items-center gap-2 grayscale hover:grayscale-0 transition-all opacity-70 hover:opacity-100 px-6">
+                <div className="h-12 flex items-center justify-center">
+                  <img
+                    src={logo.url}
+                    alt={logo.name}
+                    className="h-10 w-auto object-contain max-w-[140px]"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      (e.target as HTMLElement).style.display = 'none';
+                    }}
+                  />
+                  <GraduationCap className="w-8 h-8 text-primary hidden only-when-img-hidden" />
+                </div>
                 <span className="text-xs font-bold text-muted uppercase tracking-tighter">{logo.name}</span>
               </div>
             ))}
