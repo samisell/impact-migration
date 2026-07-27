@@ -20,7 +20,7 @@ const TermsOfService = () => {
             <span className="text-primary">– TERMS OF SERVICE –</span>
           </h1>
           <p className="text-muted text-xs md:text-sm font-semibold max-w-2xl mx-auto">
-            Suite G301, Ogba Central Mall, Ogba, Lagos, Nigeria | RC: 1514781 | TIN: 2355120526
+            Ogba Multi-purpose Plaza, G308 Abiodun Jagun St, Aguda Ikeja 101233, Lagos Nigeria | RC: 1514781 | TIN: 2355120526
           </p>
         </motion.div>
 
@@ -144,7 +144,7 @@ const TermsOfService = () => {
             </h2>
             <div className="space-y-3 text-sm text-muted leading-relaxed pl-2">
               <p>
-                <strong>2.1.</strong> All references to the ‘company,’ ‘us,’ ‘our,’ ‘we’ or ‘Impact Migration’ ‘Impact Migration Consults Limited’ ‘IMC’ ‘impactmigration.com’ means Impact Migration Consults Limited, a company registered in Nigeria by Corporate Affairs Commission, Company number: <strong>RC 1514781</strong>; Taxpayer Identification Number: <strong>2355120526</strong>, having its corporate head office at <strong>Suite G301, Ogba Central Mall, Ogba, Lagos, Nigeria</strong>.
+                <strong>2.1.</strong> All references to the ‘company,’ ‘us,’ ‘our,’ ‘we’ or ‘Impact Migration’ ‘Impact Migration Consults Limited’ ‘IMC’ ‘impactmigration.com’ means Impact Migration Consults Limited, a company registered in Nigeria by Corporate Affairs Commission, Company number: <strong>RC 1514781</strong>; Taxpayer Identification Number: <strong>2355120526</strong>, having its corporate head office at <strong>Ogba Multi-purpose Plaza, G308 Abiodun Jagun St, Aguda Ikeja 101233, Lagos Nigeria</strong>.
               </p>
               <p>
                 <strong>2.2.</strong> All references to ‘you,’ ‘your,’ or the ‘applicant(s)’ mean the person or persons, using the website and/or using the services rendered by us through our website or some other of our approved channels.

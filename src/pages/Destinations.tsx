@@ -64,14 +64,14 @@ const Destinations = () => {
             </motion.div>
           ))}
           
-          {/* Placeholder for "Other European Countries" */}
+          {/* Placeholder for "Other Global Destinations" */}
           <div className="bg-white p-12 rounded-[2.5rem] shadow-sm border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-center">
             <div className="bg-gray-100 w-20 h-20 rounded-full flex items-center justify-center mb-8 text-gray-400">
               <Globe size={40} />
             </div>
-            <h3 className="text-2xl font-bold text-ink mb-4">Other European Countries</h3>
+            <h3 className="text-2xl font-bold text-ink mb-4">Other Global Destinations</h3>
             <p className="text-muted text-sm mb-8 leading-relaxed">
-              We also process admissions for Germany, Ireland, France, and other European nations.
+              We also process admissions for Austria, Netherlands, Switzerland, Belgium, Denmark, Finland, and 20+ other countries worldwide.
             </p>
             <Link to="/contact" className="btn-outline w-full">
               Inquire Now

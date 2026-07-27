@@ -20,7 +20,7 @@ const PrivacyPolicy = () => {
             <span className="text-primary">– PRIVACY POLICY –</span>
           </h1>
           <p className="text-muted text-sm font-semibold">
-            Corporate Head Office: Suite G301, Ogba Central Mall, Ogba, Lagos, Nigeria | RC: 1514781
+            Corporate Head Office: Ogba Multi-purpose Plaza, G308 Abiodun Jagun St, Aguda Ikeja 101233, Lagos Nigeria | RC: 1514781
           </p>
         </motion.div>
 

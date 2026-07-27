@@ -80,7 +80,7 @@ const Navbar = () => {
                         transition={{ duration: 0.18 }}
                         className="absolute top-full left-0 w-64 pt-2 z-50"
                       >
-                        <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-3 space-y-1">
+                        <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-3 space-y-1 max-h-[420px] overflow-y-auto">
                           <Link
                             to="/destinations"
                             className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-bold text-primary bg-primary/5 hover:bg-primary/10 transition-colors uppercase tracking-wider"
@@ -291,11 +291,13 @@ const Footer = () => {
           <div>
             <h4 className="font-bold mb-6 text-lg">Destinations</h4>
             <ul className="flex flex-col gap-4 text-gray-400 text-sm">
-              <li><Link to="/destinations/uk" className="hover:text-primary transition-colors">United Kingdom</Link></li>
-              <li><Link to="/destinations/canada" className="hover:text-primary transition-colors">Canada</Link></li>
-              <li><Link to="/destinations/usa" className="hover:text-primary transition-colors">USA</Link></li>
-              <li><Link to="/destinations/malta" className="hover:text-primary transition-colors">Malta</Link></li>
-              <li><Link to="/destinations/poland" className="hover:text-primary transition-colors">Poland</Link></li>
+              {COUNTRIES.slice(0, 7).map((country) => (
+                <li key={country.id}>
+                  <Link to={`/destinations/${country.slug}`} className="hover:text-primary transition-colors">
+                    {country.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

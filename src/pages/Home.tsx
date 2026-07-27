@@ -8,6 +8,36 @@ import { HeroSlider } from '../components/HeroSlider';
 import { StatsSection } from '../components/StatsSection';
 
 const Home = () => {
+  React.useEffect(() => {
+    const container = document.getElementById('iasBadge');
+    if (!container) return;
+
+    const certNum = container.getAttribute('data-account-id') || '6740';
+    if (!container.innerHTML.trim()) {
+      fetch(`https://api2.icef.com/public/account/certificate/${certNum}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data?.records?.[0]?.CDN_link_to_IAS_logo__c) {
+            const record = data.records[0];
+            container.innerHTML = `<a href="https://www.icef.com/agency/${record.Master_Account__c}" target="_blank" rel="noopener noreferrer"><img src="${record.CDN_link_to_IAS_logo__c}" alt="ICEF Accredited Agency Logo" style="width: 120px;"></a>`;
+          }
+        })
+        .catch(err => console.error('ICEF Badge fetch error:', err));
+    }
+
+    const scriptId = 'icef-ias-badge-script';
+    const scriptSrc = 'https://www-cdn.icef.com/scripts/iasbadgeid.js';
+    if (!document.getElementById(scriptId) && !document.querySelector(`script[src="${scriptSrc}"]`)) {
+      const script = document.createElement('script');
+      script.id = scriptId;
+      script.src = scriptSrc;
+      script.async = true;
+      script.defer = true;
+      script.crossOrigin = 'anonymous';
+      document.body.appendChild(script);
+    }
+  }, []);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -42,7 +72,7 @@ const Home = () => {
                 className="rounded-2xl shadow-lg mt-12 h-64 object-cover"
                 referrerPolicy="no-referrer"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80";
+                  (e.target as HTMLImageElement).src = "/about-img1.jpg";
                 }}
               />
               <img
@@ -51,7 +81,7 @@ const Home = () => {
                 className="rounded-2xl shadow-lg h-64 object-cover"
                 referrerPolicy="no-referrer"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80";
+                  (e.target as HTMLImageElement).src = "/about-img2.jpg";
                 }}
               />
             </div>
@@ -69,7 +99,7 @@ const Home = () => {
             <p className="text-muted text-lg mb-8 leading-relaxed">
               Impact Migration is a premier study abroad agency based in Lagos, Nigeria. We specialize in helping students navigate the complexities of international admissions and visa processes.
             </p>
-            <ul className="space-y-4 mb-10">
+            <ul className="space-y-4 mb-8">
               {[
                 'Expert counseling from experienced advisors',
                 'Comprehensive visa application support',
@@ -82,6 +112,46 @@ const Home = () => {
                 </li>
               ))}
             </ul>
+
+            {/* Founder and CEO Profile */}
+            <div className="bg-neutral p-6 rounded-2xl border border-gray-200/60 mb-6 flex items-center gap-5 shadow-sm">
+              <img
+                src="/1.png"
+                alt="Samson Ayeni - Founder and CEO"
+                className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-2 border-primary shadow-md shrink-0"
+              />
+              <div>
+                <div className="flex items-center gap-1.5 text-primary font-bold text-[11px] uppercase tracking-wider mb-1">
+                  <Award className="w-3.5 h-3.5" />
+                  <span>Founder & CEO</span>
+                </div>
+                <h4 className="text-xl font-black text-ink leading-tight">SAMSON AYENI</h4>
+                <p className="text-muted text-xs md:text-sm mt-1 italic leading-relaxed font-medium">
+                  "Our commitment is to open doors to world-class global education and career success with unmatched professional integrity and mentorship."
+                </p>
+              </div>
+            </div>
+
+            {/* ICEF Agency Status Accreditation Badge */}
+            <div className="bg-white p-5 rounded-2xl border border-gray-200/80 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex items-center gap-3.5 text-left">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <Award className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-1.5 text-primary font-bold text-[10px] uppercase tracking-wider">
+                    <CheckCircle className="w-3.5 h-3.5" />
+                    <span>Verified Accreditation</span>
+                  </div>
+                  <h5 className="font-bold text-ink text-sm md:text-base">ICEF Accredited Agency Status</h5>
+                  <p className="text-xs text-muted">Globally recognized standard for international study counselling & compliance.</p>
+                </div>
+              </div>
+              <div className="shrink-0 bg-neutral/50 p-2.5 rounded-xl border border-gray-100 flex items-center justify-center min-w-[150px] min-h-[64px]">
+                <span id='iasBadge' data-account-id='6740'></span>
+              </div>
+            </div>
+
             <Link to="/about" className="btn-outline inline-flex items-center gap-2">
               Learn More About Us <ArrowRight size={18} />
             </Link>
@@ -105,7 +175,7 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {COUNTRIES.map((country) => (
+            {COUNTRIES.slice(0, 8).map((country) => (
               <Link key={country.id} to={`/destinations/${country.slug}`} className="group">
                 <div className="relative h-80 rounded-2xl overflow-hidden shadow-md group-hover:shadow-xl transition-all">
                   <img

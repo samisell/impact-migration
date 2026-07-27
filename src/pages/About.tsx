@@ -106,7 +106,7 @@ const About = () => {
                   className="w-full h-[400px] object-cover"
                   referrerPolicy="no-referrer"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80";
+                    (e.target as HTMLImageElement).src = "/about-img1.jpg";
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -171,7 +171,7 @@ const About = () => {
             <span className="text-xs font-bold uppercase tracking-widest text-primary mb-2 block">Our Foundation</span>
             <h3 className="text-2xl md:text-3xl font-black text-ink mb-4">MISSION</h3>
             <p className="text-muted text-base md:text-lg leading-relaxed">
-              To establish a platform that enables youth achieve their dreams through placement abroad.
+              To provide a transformative platform that empowers young individuals to achieve their academic and career aspirations through seamless access to international education and placement opportunities.
             </p>
           </motion.div>
 
@@ -188,7 +188,7 @@ const About = () => {
             <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-2 block">Our Aspiration</span>
             <h3 className="text-2xl md:text-3xl font-black text-ink mb-4">VISION</h3>
             <p className="text-muted text-base md:text-lg leading-relaxed">
-              To be the leading global career and educational consulting firm solving real-life problems through promotion of young enthusiastic professionals with strong ties to excellence.
+              To become a globally recognized leader in educational and career consulting-bringing opportunities and solving real-world challenges by nurturing ambitious, excellence-driven youth for global impact.
             </p>
           </motion.div>
         </div>
@@ -197,7 +197,7 @@ const About = () => {
       {/* Our Team Section */}
       <section className="container mx-auto px-4 mb-20">
         <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-gray-100">
-          <div className="max-w-3xl mx-auto text-center">
+          <div className="max-w-3xl mx-auto text-center mb-12">
             <span className="text-primary font-bold text-xs uppercase tracking-widest block mb-2">PASSIONATE PROFESSIONALS</span>
             <h2 className="text-3xl md:text-4xl font-extrabold text-ink mb-6">OUR TEAM</h2>
             <p className="text-muted text-base md:text-lg leading-relaxed mb-6 font-medium text-ink/80">
@@ -206,6 +206,57 @@ const About = () => {
             <p className="text-muted text-base md:text-lg leading-relaxed">
               We are an educational consulting firm that assist student gain admission into universities abroad. We offer a broad portfolio of excellently managed services right from pre-admission to post landing services tailored to the needs of each and every student seeking abroad education.
             </p>
+          </div>
+
+          {/* Founder and CEO Spotlight Card */}
+          <div className="bg-neutral p-8 md:p-12 rounded-3xl border border-gray-200/60 shadow-md max-w-4xl mx-auto text-left grid grid-cols-1 md:grid-cols-12 gap-8 items-center mb-12">
+            <div className="md:col-span-5 relative flex justify-center">
+              <div className="relative">
+                <div className="absolute -inset-2 bg-primary/15 rounded-3xl transform -rotate-2"></div>
+                <img
+                  src="/1.png"
+                  alt="Samson Ayeni - Founder and CEO"
+                  className="w-64 h-64 md:w-full md:h-80 object-cover rounded-2xl shadow-lg relative z-10 border-4 border-white"
+                />
+                <div className="absolute -bottom-3 -right-3 z-20 bg-primary text-white py-1.5 px-4 rounded-full text-xs font-bold shadow-md uppercase tracking-wider flex items-center gap-1.5">
+                  <Award className="w-3.5 h-3.5" />
+                  <span>Founder & CEO</span>
+                </div>
+              </div>
+            </div>
+            <div className="md:col-span-7 space-y-4">
+              <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
+                <Sparkles className="w-4 h-4" />
+                <span>Leadership Spotlight</span>
+              </div>
+              <div>
+                <h3 className="text-2xl md:text-3xl font-black text-ink">SAMSON AYENI</h3>
+                <p className="text-primary font-bold text-base mt-1">Founder and CEO</p>
+              </div>
+              <p className="text-muted text-sm md:text-base leading-relaxed">
+                Under Samson Ayeni's visionary leadership, Impact Migration Consults has grown into a premier global educational and career consulting firm. Dedicated to integrity, excellence, and personalized mentorship, Samson has guided countless students and professionals in realizing their international study and relocation aspirations.
+              </p>
+              <div className="pt-4 border-t border-gray-200 flex items-center justify-between text-xs font-semibold text-ink/80">
+                <span>Committed to excellence & high visa success rates</span>
+                <span className="text-primary font-bold">Impact Migration Consults</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Leadership & Advisory Team */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {[
+              { name: 'Dr. Michael Adebayo', role: 'Head of Global Admissions', img: '/2.png', desc: 'Specialist in North American and UK university admissions and scholarship placement.' },
+              { name: 'Sarah Jenkins', role: 'Senior Visa & Immigration Lead', img: '/3.png', desc: 'Over 8 years of expertise navigating student visa protocols and compliance.' },
+              { name: 'David Okafor', role: 'Career Counselling Director', img: '/4.png', desc: 'Passionate about aligning academic pursuits with long-term global career paths.' }
+            ].map((member, idx) => (
+              <div key={idx} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all text-center flex flex-col items-center">
+                <img src={member.img} alt={member.name} className="w-24 h-24 rounded-full object-cover mb-4 border-2 border-primary/20 shadow-sm" />
+                <h4 className="font-bold text-ink text-base">{member.name}</h4>
+                <p className="text-xs font-bold text-primary mb-2">{member.role}</p>
+                <p className="text-xs text-muted leading-relaxed">{member.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
