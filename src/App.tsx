@@ -17,6 +17,7 @@ import Login from './pages/Login';
 import Appointment from './pages/Appointment';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import NotFound from './pages/NotFound';
 
 const AppContent = () => {
   const location = useLocation();
@@ -27,6 +28,7 @@ const AppContent = () => {
       <Routes>
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     );
   }
@@ -49,6 +51,7 @@ const AppContent = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/appointment" element={<Appointment />} />
         <Route path="/book-appointment" element={<Appointment />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>
   );
