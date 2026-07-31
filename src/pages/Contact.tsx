@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Mail, Phone, MapPin, Send, Facebook, Twitter, Instagram, Linkedin, Loader2, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Facebook, Twitter, Instagram, Linkedin, Loader2, CheckCircle, Navigation } from 'lucide-react';
 import { databases } from '../lib/appwrite';
 import { ID } from 'appwrite';
 import { ContactMessage } from '../types';
@@ -117,7 +117,7 @@ const Contact = () => {
                     <div className="space-y-1">
                       {CONTACT_INFO.phones.map((phone, index) => (
                         <p key={index} className="text-muted text-sm leading-relaxed">
-                          <a href={`tel:${phone}`} className="hover:text-primary font-semibold transition-colors">
+                          <a href={`tel:${phone.replace(/\s+/g, '')}`} className="hover:text-primary font-semibold transition-colors">
                             {phone}
                           </a>
                         </p>
@@ -296,10 +296,46 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Google Maps Embed Placeholder */}
-      <section className="container mx-auto px-4 mt-24">
-        <div className="h-[500px] bg-gray-200 rounded-[3rem] overflow-hidden shadow-inner flex items-center justify-center text-muted font-bold text-xl">
-          Google Maps Embed Placeholder
+      {/* Google Maps Section */}
+      <section className="container mx-auto px-4 mt-20">
+        <div className="bg-white p-6 sm:p-10 rounded-[3rem] shadow-xl border border-gray-100">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+            <div>
+              <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest mb-1">
+                <MapPin size={16} />
+                <span>Our Location</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-black text-ink">
+                Visit Our Corporate Head Office
+              </h3>
+              <p className="text-muted text-sm mt-1">
+                {CONTACT_INFO.address}
+              </p>
+            </div>
+            <a
+              href="https://maps.google.com/?q=Ogba+Central+Mall,+Beside+Sunday+Market,+Ogba,+Lagos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline text-xs sm:text-sm px-6 py-3 flex items-center gap-2 shrink-0 rounded-2xl hover:bg-primary hover:text-white hover:border-primary transition-all"
+            >
+              <Navigation size={16} />
+              Get Directions on Google Maps
+            </a>
+          </div>
+
+          <div className="h-[450px] sm:h-[500px] w-full rounded-[2.5rem] overflow-hidden shadow-inner relative border border-gray-200">
+            <iframe
+              title="Impact Migration Office Location"
+              src="https://maps.google.com/maps?q=Ogba+Central+Mall,+Sunday+Market,+Ogba,+Lagos&t=&z=16&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="w-full h-full rounded-[2.5rem]"
+            ></iframe>
+          </div>
         </div>
       </section>
     </div>

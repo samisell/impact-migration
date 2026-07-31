@@ -207,7 +207,7 @@ export const BLOG_POSTS: BlogPost[] = [
     id: '2',
     title: 'Top 5 Scholarships for Nigerian Students',
     excerpt: 'Explore the best scholarship opportunities available for Nigerian students looking to study abroad.',
-    image: '/images/award-winner.jpg',
+    image: '/images/study-abroad-blog.jpg',
     date: 'Oct 15, 2025',
     category: 'Scholarships'
   },
@@ -222,11 +222,11 @@ export const BLOG_POSTS: BlogPost[] = [
 ];
 
 export const CONTACT_INFO = {
-  address: 'Ogba Multi-purpose Plaza, G308 Abiodun Jagun St, Aguda Ikeja 101233, Lagos Nigeria',
+  address: 'Suite G301, Ogba Central Mall, 3rd Floor, Beside Sunday Market, Ogba, Lagos State.',
   email: 'info@impactmigration.com',
-  phones: ['+2348149166564', '+2347033182327', '08164398613', '09063837545'],
+  phones: ['+234 814 916 6564', '+234 703 318 2327', '+234 816 439 8613', '+234 906 383 7545'],
   whatsapp: 'https://wa.me/2348149166564',
-  whatsappNumber: '+2348149166564',
+  whatsappNumber: '+234 814 916 6564',
   socials: {
     instagram: 'https://www.instagram.com/impactmigrations?igsh=a3RkYmV6Mm16NHFl',
     facebook: 'https://www.facebook.com/impactmigrations?mibextid=ZbWKwL',

@@ -218,7 +218,7 @@ export const HeroSlider: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-xs font-semibold text-white/80">Impact Migration Consults</p>
-                      <p className="text-sm font-bold">Your Utmost Desire Is Our Success</p>
+                      <p className="text-sm font-bold">Your Success Is Our Utmost Desire</p>
                     </div>
                     <div className="bg-primary px-3 py-1 rounded-full text-xs font-bold">
                       Verified

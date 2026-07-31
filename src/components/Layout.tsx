@@ -312,7 +312,7 @@ const Footer = () => {
                 <span className="text-primary">📞</span>
                 <div className="flex flex-col gap-1">
                   {CONTACT_INFO.phones.map((phone, index) => (
-                    <a key={index} href={`tel:${phone}`} className="hover:text-primary transition-colors">
+                    <a key={index} href={`tel:${phone.replace(/\s+/g, '')}`} className="hover:text-primary transition-colors">
                       {phone}
                     </a>
                   ))}

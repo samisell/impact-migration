@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import ceoImage from '../assets/images/ceo2.jpeg';
 import { 
   Target, 
   Eye, 
@@ -56,7 +57,7 @@ const About = () => {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-6xl font-black text-ink mb-6 leading-tight"
           >
-            Your Utmost Desire Is <span className="text-primary">Our Success</span>
+            Your Success Is <span className="text-primary">Our Utmost Desire</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -209,14 +210,15 @@ const About = () => {
           </div>
 
           {/* Founder and CEO Spotlight Card */}
-          <div className="bg-neutral p-8 md:p-12 rounded-3xl border border-gray-200/60 shadow-md max-w-4xl mx-auto text-left grid grid-cols-1 md:grid-cols-12 gap-8 items-center mb-12">
+          <div className="bg-neutral p-8 md:p-12 rounded-3xl border border-gray-200/60 shadow-md max-w-4xl mx-auto text-left grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
             <div className="md:col-span-5 relative flex justify-center">
               <div className="relative">
                 <div className="absolute -inset-2 bg-primary/15 rounded-3xl transform -rotate-2"></div>
                 <img
-                  src="/1.png"
+                  src={ceoImage}
                   alt="Samson Ayeni - Founder and CEO"
                   className="w-64 h-64 md:w-full md:h-80 object-cover rounded-2xl shadow-lg relative z-10 border-4 border-white"
+                  referrerPolicy="no-referrer"
                 />
                 <div className="absolute -bottom-3 -right-3 z-20 bg-primary text-white py-1.5 px-4 rounded-full text-xs font-bold shadow-md uppercase tracking-wider flex items-center gap-1.5">
                   <Award className="w-3.5 h-3.5" />
@@ -241,22 +243,6 @@ const About = () => {
                 <span className="text-primary font-bold">Impact Migration Consults</span>
               </div>
             </div>
-          </div>
-
-          {/* Additional Leadership & Advisory Team */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {[
-              { name: 'Dr. Michael Adebayo', role: 'Head of Global Admissions', img: '/2.png', desc: 'Specialist in North American and UK university admissions and scholarship placement.' },
-              { name: 'Sarah Jenkins', role: 'Senior Visa & Immigration Lead', img: '/3.png', desc: 'Over 8 years of expertise navigating student visa protocols and compliance.' },
-              { name: 'David Okafor', role: 'Career Counselling Director', img: '/4.png', desc: 'Passionate about aligning academic pursuits with long-term global career paths.' }
-            ].map((member, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all text-center flex flex-col items-center">
-                <img src={member.img} alt={member.name} className="w-24 h-24 rounded-full object-cover mb-4 border-2 border-primary/20 shadow-sm" />
-                <h4 className="font-bold text-ink text-base">{member.name}</h4>
-                <p className="text-xs font-bold text-primary mb-2">{member.role}</p>
-                <p className="text-xs text-muted leading-relaxed">{member.desc}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>

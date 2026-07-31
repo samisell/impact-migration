@@ -6,6 +6,7 @@ import { COUNTRIES, SERVICES, PARTNER_LOGOS, HERO_IMAGE } from '../constants';
 import { TestimonialSlider } from '../components/TestimonialSlider';
 import { HeroSlider } from '../components/HeroSlider';
 import { StatsSection } from '../components/StatsSection';
+import ceoImage from '../assets/images/ceo2.jpeg';
 
 const Home = () => {
   React.useEffect(() => {
@@ -116,9 +117,10 @@ const Home = () => {
             {/* Founder and CEO Profile */}
             <div className="bg-neutral p-6 rounded-2xl border border-gray-200/60 mb-6 flex items-center gap-5 shadow-sm">
               <img
-                src="/1.png"
+                src={ceoImage}
                 alt="Samson Ayeni - Founder and CEO"
                 className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-2 border-primary shadow-md shrink-0"
+                referrerPolicy="no-referrer"
               />
               <div>
                 <div className="flex items-center gap-1.5 text-primary font-bold text-[11px] uppercase tracking-wider mb-1">
