@@ -135,6 +135,62 @@ export async function subscribeNewsletter(email: string) {
   return res.json();
 }
 
+export async function fetchSubscribers() {
+  const res = await fetch('/api/subscribers');
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.error || 'Failed to fetch subscribers');
+  }
+  return res.json();
+}
+
+export async function deleteSubscriber(id: string | number) {
+  const res = await fetch(`/api/subscribers/${id}`, { method: 'DELETE' });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.error || 'Failed to delete subscriber');
+  }
+  return res.json();
+}
+
+export async function registerUser(data: {
+  firstName: string;
+  surname: string;
+  email: string;
+  phone: string;
+  countryOfResidence: string;
+  password?: string;
+}) {
+  const res = await fetch('/api/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.error || 'Failed to register user');
+  }
+  return res.json();
+}
+
+export async function fetchRegisteredUsers() {
+  const res = await fetch('/api/registered-users');
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.error || 'Failed to fetch registered users');
+  }
+  return res.json();
+}
+
+export async function deleteRegisteredUser(id: string | number) {
+  const res = await fetch(`/api/registered-users/${id}`, { method: 'DELETE' });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.error || 'Failed to delete user');
+  }
+  return res.json();
+}
+
 export async function adminLogin(email: string, password: string) {
   const res = await fetch('/api/admin/login', {
     method: 'POST',

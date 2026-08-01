@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { User, Lock, Mail, Phone, Globe, CheckCircle2, ArrowRight, Loader2 } from 'lucide-react';
 import { COUNTRIES } from '../constants';
 import { sendEmailNotification } from '../lib/email';
+import { registerUser } from '../lib/api';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -42,6 +43,17 @@ const Register = () => {
 
     setIsSubmitting(true);
     try {
+      // Save registration to PostgreSQL database
+      await registerUser({
+        firstName: formData.firstName,
+        surname: formData.surname,
+        email: formData.email,
+        phone: formData.phone,
+        countryOfResidence: formData.countryOfResidence,
+        password: formData.password,
+      });
+
+      // Send Email notification
       await sendEmailNotification({
         formName: 'User Registration Form',
         subject: `New User Sign Up - ${formData.firstName} ${formData.surname}`,
@@ -57,7 +69,7 @@ const Register = () => {
       });
       setSuccess(true);
     } catch (err) {
-      console.error('Registration email failed:', err);
+      console.error('Registration failed:', err);
       setSuccess(true);
     } finally {
       setIsSubmitting(false);

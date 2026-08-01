@@ -50,6 +50,10 @@ export async function sendEmailNotification(payload: EmailPayload): Promise<{ su
         subject: `[${payload.formName}] ${payload.subject}`,
         text: fullText,
         replyTo: payload.senderEmail || undefined,
+        formName: payload.formName,
+        senderName: payload.senderName,
+        senderEmail: payload.senderEmail,
+        data: payload.data
       }),
     });
 

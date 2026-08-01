@@ -1,13 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { LayoutDashboard, Users, MessageSquare, Settings, LogOut, Search, Trash2, Eye, TrendingUp, Globe, CheckCircle } from 'lucide-react';
+import { LayoutDashboard, Users, MessageSquare, Settings, LogOut, Search, Trash2, Eye, TrendingUp, Globe, CheckCircle, Calendar, Mail, UserCheck } from 'lucide-react';
 import { Lead, ContactMessage } from '../types';
-import { fetchApplications, fetchContacts, deleteApplication, deleteContact } from '../lib/api';
+import { 
+  fetchApplications, 
+  fetchAppointments, 
+  fetchContacts, 
+  fetchSubscribers, 
+  fetchRegisteredUsers,
+  deleteApplication, 
+  deleteAppointment,
+  deleteContact,
+  deleteSubscriber,
+  deleteRegisteredUser
+} from '../lib/api';
 
 const AdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState<'leads' | 'messages'>('leads');
-  const [leads, setLeads] = useState<Lead[]>([]);
-  const [messages, setMessages] = useState<ContactMessage[]>([]);
+  const [activeTab, setActiveTab] = useState<'applications' | 'appointments' | 'messages' | 'subscribers' | 'users'>('applications');
+  const [applications, setApplications] = useState<any[]>([]);
+  const [appointments, setAppointments] = useState<any[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
+  const [subscribers, setSubscribers] = useState<any[]>([]);
+  const [registeredUsers, setRegisteredUsers] = useState<any[]>([]);
+
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
   const [selectedItem, setSelectedItem] = useState<any>(null);
@@ -17,7 +32,6 @@ const AdminDashboard = () => {
   useEffect(() => {
     const savedUser = localStorage.getItem('admin_user');
     if (!savedUser) {
-      // Allow demo user if no login present
       setUser({ email: 'admin@impactmigration.com' });
     } else {
       setUser(JSON.parse(savedUser));
@@ -28,12 +42,21 @@ const AdminDashboard = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      if (activeTab === 'leads') {
+      if (activeTab === 'applications') {
         const data = await fetchApplications();
-        setLeads(data);
-      } else {
+        setApplications(data);
+      } else if (activeTab === 'appointments') {
+        const data = await fetchAppointments();
+        setAppointments(data);
+      } else if (activeTab === 'messages') {
         const data = await fetchContacts();
         setMessages(data);
+      } else if (activeTab === 'subscribers') {
+        const data = await fetchSubscribers();
+        setSubscribers(data);
+      } else if (activeTab === 'users') {
+        const data = await fetchRegisteredUsers();
+        setRegisteredUsers(data);
       }
     } catch (err) {
       console.error('Error fetching data from PostgreSQL:', err);
@@ -48,15 +71,24 @@ const AdminDashboard = () => {
   };
 
   const handleDelete = async (id: string | number) => {
-    if (!window.confirm('Are you sure you want to delete this item?')) return;
+    if (!window.confirm('Are you sure you want to delete this record?')) return;
     
     try {
-      if (activeTab === 'leads') {
+      if (activeTab === 'applications') {
         await deleteApplication(id);
-        setLeads(leads.filter(l => String(l.$id) !== String(id)));
-      } else {
+        setApplications(applications.filter(l => String(l.$id) !== String(id)));
+      } else if (activeTab === 'appointments') {
+        await deleteAppointment(id);
+        setAppointments(appointments.filter(a => String(a.$id) !== String(id)));
+      } else if (activeTab === 'messages') {
         await deleteContact(id);
         setMessages(messages.filter(m => String(m.$id) !== String(id)));
+      } else if (activeTab === 'subscribers') {
+        await deleteSubscriber(id);
+        setSubscribers(subscribers.filter(s => String(s.$id) !== String(id)));
+      } else if (activeTab === 'users') {
+        await deleteRegisteredUser(id);
+        setRegisteredUsers(registeredUsers.filter(u => String(u.$id) !== String(id)));
       }
     } catch (err) {
       console.error('Error deleting item from PostgreSQL:', err);
@@ -66,6 +98,17 @@ const AdminDashboard = () => {
   const openModal = (item: any) => {
     setSelectedItem(item);
     setIsModalOpen(true);
+  };
+
+  const getCurrentList = () => {
+    switch (activeTab) {
+      case 'applications': return applications;
+      case 'appointments': return appointments;
+      case 'messages': return messages;
+      case 'subscribers': return subscribers;
+      case 'users': return registeredUsers;
+      default: return [];
+    }
   };
 
   return (
@@ -79,24 +122,36 @@ const AdminDashboard = () => {
           <span className="font-bold text-xl tracking-tight">Impact <span className="text-primary">Admin</span></span>
         </div>
 
-        <nav className="space-y-4 flex-grow">
+        <nav className="space-y-3 flex-grow">
           <button
-            onClick={() => setActiveTab('leads')}
-            className={`w-full flex items-center gap-4 p-4 rounded-2xl font-bold transition-all ${activeTab === 'leads' ? 'bg-primary/10 text-primary' : 'text-gray-400 hover:bg-white/5'}`}
-          >
-            <LayoutDashboard size={20} /> Dashboard
-          </button>
-          <button
-            onClick={() => setActiveTab('leads')}
-            className={`w-full flex items-center gap-4 p-4 rounded-2xl font-bold transition-all ${activeTab === 'leads' ? 'bg-primary/10 text-primary' : 'text-gray-400 hover:bg-white/5'}`}
+            onClick={() => setActiveTab('applications')}
+            className={`w-full flex items-center gap-4 p-4 rounded-2xl font-bold transition-all ${activeTab === 'applications' ? 'bg-primary/10 text-primary' : 'text-gray-400 hover:bg-white/5'}`}
           >
             <Users size={20} /> Applications
+          </button>
+          <button
+            onClick={() => setActiveTab('appointments')}
+            className={`w-full flex items-center gap-4 p-4 rounded-2xl font-bold transition-all ${activeTab === 'appointments' ? 'bg-primary/10 text-primary' : 'text-gray-400 hover:bg-white/5'}`}
+          >
+            <Calendar size={20} /> Appointments
           </button>
           <button
             onClick={() => setActiveTab('messages')}
             className={`w-full flex items-center gap-4 p-4 rounded-2xl font-bold transition-all ${activeTab === 'messages' ? 'bg-primary/10 text-primary' : 'text-gray-400 hover:bg-white/5'}`}
           >
             <MessageSquare size={20} /> Messages
+          </button>
+          <button
+            onClick={() => setActiveTab('subscribers')}
+            className={`w-full flex items-center gap-4 p-4 rounded-2xl font-bold transition-all ${activeTab === 'subscribers' ? 'bg-primary/10 text-primary' : 'text-gray-400 hover:bg-white/5'}`}
+          >
+            <Mail size={20} /> Subscribers
+          </button>
+          <button
+            onClick={() => setActiveTab('users')}
+            className={`w-full flex items-center gap-4 p-4 rounded-2xl font-bold transition-all ${activeTab === 'users' ? 'bg-primary/10 text-primary' : 'text-gray-400 hover:bg-white/5'}`}
+          >
+            <UserCheck size={20} /> Registered Users
           </button>
         </nav>
 
@@ -109,55 +164,24 @@ const AdminDashboard = () => {
       <main className="flex-grow p-6 lg:p-12 overflow-y-auto">
         <header className="flex justify-between items-center mb-12">
           <div>
-            <h1 className="text-3xl font-bold text-ink mb-2">
-              {activeTab === 'leads' ? 'Applications' : 'Contact Messages'}
+            <h1 className="text-3xl font-bold text-ink mb-2 capitalize">
+              {activeTab === 'users' ? 'Registered Users' : activeTab}
             </h1>
-            <p className="text-muted text-sm">Welcome back, {user?.name || 'Admin'}</p>
+            <p className="text-muted text-sm">Welcome back, {user?.email || 'Admin'}</p>
           </div>
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
-              {user?.name?.charAt(0) || 'A'}
+              {user?.email?.charAt(0).toUpperCase() || 'A'}
             </div>
           </div>
         </header>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
-            <div className="flex justify-between items-start mb-6">
-              <div className="bg-primary/10 p-4 rounded-2xl text-primary">
-                <Users size={24} />
-              </div>
-            </div>
-            <p className="text-muted text-sm font-bold uppercase tracking-widest mb-2">Applications</p>
-            <h3 className="text-4xl font-bold text-ink">{leads.length}</h3>
-          </div>
-          
-          <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
-            <div className="flex justify-between items-start mb-6">
-              <div className="bg-accent/10 p-4 rounded-2xl text-accent">
-                <MessageSquare size={24} />
-              </div>
-            </div>
-            <p className="text-muted text-sm font-bold uppercase tracking-widest mb-2">Messages</p>
-            <h3 className="text-4xl font-bold text-ink">{messages.length}</h3>
-          </div>
-          
-          <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
-            <div className="flex justify-between items-start mb-6">
-              <div className="bg-ink/5 p-4 rounded-2xl text-ink">
-                <Globe size={24} />
-              </div>
-            </div>
-            <p className="text-muted text-sm font-bold uppercase tracking-widest mb-2">Countries</p>
-            <h3 className="text-4xl font-bold text-ink">8</h3>
-          </div>
-        </div>
-
         {/* List Table */}
         <div className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
           <div className="p-8 border-b border-gray-100 flex justify-between items-center">
-            <h3 className="text-xl font-bold text-ink">Recent {activeTab === 'leads' ? 'Applications' : 'Messages'}</h3>
+            <h3 className="text-xl font-bold text-ink capitalize">
+              Recent {activeTab === 'users' ? 'Registered Users' : activeTab} ({getCurrentList().length})
+            </h3>
             <button onClick={fetchData} className="text-primary font-bold text-sm hover:underline">Refresh</button>
           </div>
           
@@ -165,9 +189,9 @@ const AdminDashboard = () => {
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-neutral text-muted text-xs font-bold uppercase tracking-widest">
-                  <th className="px-8 py-4">Name</th>
+                  <th className="px-8 py-4">Name / Contact</th>
                   <th className="px-8 py-4">Email</th>
-                  <th className="px-8 py-4">{activeTab === 'leads' ? 'Country' : 'Subject'}</th>
+                  <th className="px-8 py-4">Details</th>
                   <th className="px-8 py-4">Date</th>
                   <th className="px-8 py-4">Actions</th>
                 </tr>
@@ -175,20 +199,22 @@ const AdminDashboard = () => {
               <tbody className="divide-y divide-gray-50">
                 {loading ? (
                   <tr>
-                    <td colSpan={5} className="px-8 py-12 text-center text-muted">Loading...</td>
+                    <td colSpan={5} className="px-8 py-12 text-center text-muted">Loading data from PostgreSQL...</td>
                   </tr>
-                ) : (activeTab === 'leads' ? leads : messages).length === 0 ? (
+                ) : getCurrentList().length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-8 py-12 text-center text-muted">No records found.</td>
+                    <td colSpan={5} className="px-8 py-12 text-center text-muted">No records found in this table.</td>
                   </tr>
                 ) : (
-                  (activeTab === 'leads' ? leads : messages).map((item: any) => (
+                  getCurrentList().map((item: any) => (
                     <tr key={item.$id} className="hover:bg-neutral/50 transition-colors group">
-                      <td className="px-8 py-6 font-bold text-ink">{item.fullName}</td>
+                      <td className="px-8 py-6 font-bold text-ink">
+                        {item.fullName || (item.firstName ? `${item.firstName} ${item.surname || ''}` : item.email)}
+                      </td>
                       <td className="px-8 py-6 text-muted">{item.email}</td>
                       <td className="px-8 py-6">
                         <span className="bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-lg">
-                          {activeTab === 'leads' ? item.preferredCountry : item.subject}
+                          {item.preferredCountry || item.subject || item.counsellingMode || item.countryOfResidence || 'Subscriber'}
                         </span>
                       </td>
                       <td className="px-8 py-6 text-muted text-sm">
@@ -218,60 +244,62 @@ const AdminDashboard = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/50 backdrop-blur-sm">
           <div className="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden">
             <div className="p-10 border-b border-gray-100 flex justify-between items-center bg-neutral">
-              <h3 className="text-2xl font-bold text-ink">{activeTab === 'leads' ? 'Application Details' : 'Message Details'}</h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-muted hover:text-ink transition-colors font-bold">X</button>
+              <h3 className="text-2xl font-bold text-ink capitalize">{activeTab} Details</h3>
+              <button onClick={() => setIsModalOpen(false)} className="text-muted hover:text-ink transition-colors font-bold">✕</button>
             </div>
             
-            <div className="p-10 space-y-8">
-              <div className="grid grid-cols-2 gap-8">
+            <div className="p-10 space-y-6">
+              <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Full Name</p>
-                  <p className="text-lg font-bold text-ink">{selectedItem.fullName}</p>
+                  <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Name</p>
+                  <p className="text-lg font-bold text-ink">
+                    {selectedItem.fullName || (selectedItem.firstName ? `${selectedItem.firstName} ${selectedItem.surname || ''}` : selectedItem.email)}
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Email Address</p>
                   <p className="text-lg font-bold text-ink">{selectedItem.email}</p>
                 </div>
               </div>
-              
-              {activeTab === 'leads' ? (
-                <>
-                  <div className="grid grid-cols-2 gap-8">
-                    <div>
-                      <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Phone Number</p>
-                      <p className="text-lg font-bold text-ink">{selectedItem.phone}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Preferred Country</p>
-                      <p className="text-lg font-bold text-ink">{selectedItem.preferredCountry}</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-8">
-                    <div>
-                      <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Course</p>
-                      <p className="text-lg font-bold text-ink">{selectedItem.courseOfInterest}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Education</p>
-                      <p className="text-lg font-bold text-ink">{selectedItem.educationLevel}</p>
-                    </div>
-                  </div>
-                </>
-              ) : (
+
+              {selectedItem.phone && (
                 <div>
-                  <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Subject</p>
-                  <p className="text-lg font-bold text-ink">{selectedItem.subject}</p>
+                  <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Phone Number</p>
+                  <p className="text-base font-bold text-ink">{selectedItem.phone}</p>
                 </div>
               )}
-              
-              <div>
-                <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Message</p>
-                <p className="text-ink leading-relaxed bg-neutral p-6 rounded-2xl">{selectedItem.message || 'No message provided.'}</p>
-              </div>
+
+              {selectedItem.preferredCountry && (
+                <div>
+                  <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Preferred Country / Destination</p>
+                  <p className="text-base font-bold text-ink">{selectedItem.preferredCountry}</p>
+                </div>
+              )}
+
+              {selectedItem.subject && (
+                <div>
+                  <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Subject</p>
+                  <p className="text-base font-bold text-ink">{selectedItem.subject}</p>
+                </div>
+              )}
+
+              {selectedItem.message && (
+                <div>
+                  <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Message / Content</p>
+                  <p className="text-ink leading-relaxed bg-neutral p-5 rounded-2xl whitespace-pre-wrap">{selectedItem.message}</p>
+                </div>
+              )}
+
+              {selectedItem.createdAt && (
+                <div>
+                  <p className="text-xs text-muted font-bold uppercase tracking-widest mb-1">Date Submitted</p>
+                  <p className="text-sm font-semibold text-muted">{new Date(selectedItem.createdAt).toLocaleString()}</p>
+                </div>
+              )}
             </div>
             
-            <div className="p-10 bg-neutral flex justify-end gap-4">
-              <button onClick={() => setIsModalOpen(false)} className="btn-outline py-2 px-6">Close</button>
+            <div className="p-8 bg-neutral flex justify-end">
+              <button onClick={() => setIsModalOpen(false)} className="btn-primary py-2.5 px-8">Close</button>
             </div>
           </div>
         </div>
