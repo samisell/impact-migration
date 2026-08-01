@@ -1,13 +1,24 @@
 import { Country, Service, BlogPost } from './types';
-
-
+import ukImage from './assets/images/uk.jpeg';
+import canadaImage from './assets/images/canada.jpg';
+import usaImage from './assets/images/usa_destination_1785513989287.jpg';
+import australiaImage from './assets/images/australia.jpg';
+import polandImage from './assets/images/poland.jpg';
+import maltaImage from './assets/images/malta.jpg';
+import dubaiImage from './assets/images/dubai_destination_1785514001017.jpg';
+import irelandImage from './assets/images/ireland_destination_1785514012546.jpg';
+import spainImage from './assets/images/spain_destination_1785514035957.jpg';
+import germanyImage from './assets/images/germany_destination_1785514023140.jpg';
+import franceImage from './assets/images/france_destination_1785514049409.jpg';
+import italyImage from './assets/images/italy_destination_1785514060300.jpg';
+import swedenImage from './assets/images/sweden_destination_1785514231675.jpg';
 
 export const COUNTRIES: Country[] = [
   {
     id: '1',
     name: 'United Kingdom',
     slug: 'uk',
-    image: '/destination/UK.jpeg',
+    image: ukImage,
     overview: 'The UK is home to top-tier universities offering globally recognized degrees, 2-year post-study work rights, and accelerated 1-year master\'s programs.',
     benefits: ['2-year Post-Study Work Visa', '1-year Master’s degree programs', 'World-renowned institutions', 'Vibrant multicultural student life'],
     universities: ['University of Hertfordshire', 'Teesside University', 'Coventry University', 'University of Greenwich'],
@@ -19,7 +30,7 @@ export const COUNTRIES: Country[] = [
     id: '2',
     name: 'Canada',
     slug: 'canada',
-    image: '/destination/canada.jpg',
+    image: canadaImage,
     overview: 'Canada offers world-class education, affordable tuition fees, part-time work privileges, and direct post-graduation permanent residency pathways.',
     benefits: ['Post-Graduation Work Permit (PGWP)', 'Part-time work while studying', 'High quality of living & safety', 'Clear pathways to Permanent Residency'],
     universities: ['University of Toronto', 'York University', 'Conestoga College', 'University of Windsor'],
@@ -31,7 +42,7 @@ export const COUNTRIES: Country[] = [
     id: '3',
     name: 'USA',
     slug: 'usa',
-    image: '/destination/USA4.jpg',
+    image: usaImage,
     overview: 'The USA provides unprecedented academic flexibility, generous full/partial scholarships, and 3-year STEM OPT work authorization.',
     benefits: ['Full & Partial Scholarships available', '3-Year STEM OPT extension', 'State-of-the-art research facilities', 'Flexible credit-based system'],
     universities: ['Arizona State University', 'University of North Texas', 'Illinois Institute of Technology', 'Wichita State University'],
@@ -43,7 +54,7 @@ export const COUNTRIES: Country[] = [
     id: '4',
     name: 'Australia',
     slug: 'australia',
-    image: '/destination/Austriala.jpg',
+    image: australiaImage,
     overview: 'Australia combines high academic standards with post-study work rights, excellent student support services, and a vibrant lifestyle.',
     benefits: ['Up to 4 years Post-Study Work Visa', 'Flexible part-time work rights', 'Top-ranked universities globally', 'Safe, welcoming environment'],
     universities: ['University of Melbourne', 'Monash University', 'Deakin University', 'RMIT University'],
@@ -55,7 +66,7 @@ export const COUNTRIES: Country[] = [
     id: '5',
     name: 'Poland',
     slug: 'poland',
-    image: '/destination/poland2.jpg',
+    image: polandImage,
     overview: 'Poland offers accessible European degrees taught in English with low tuition, affordable living costs, and easy Schengen travel.',
     benefits: ['Affordable tuition & low cost of living', 'Schengen zone travel access', 'Degrees accepted across Europe', 'Work permission during studies'],
     universities: ['University of Warsaw', 'Vistula University', 'Warsaw University of Technology', 'Wrocław University'],
@@ -67,7 +78,7 @@ export const COUNTRIES: Country[] = [
     id: '6',
     name: 'Malta',
     slug: 'malta',
-    image: '/destination/MALTA4.jpg',
+    image: maltaImage,
     overview: 'Malta provides a warm Mediterranean climate, 100% English-speaking environment, affordable costs, and Schengen visa privileges.',
     benefits: ['100% English-speaking EU nation', 'Schengen Area travel privileges', 'Highly affordable tuition rates', 'Work while studying allowed'],
     universities: ['University of Malta', 'MCAST', 'Global College Malta', 'American University of Malta'],
@@ -79,7 +90,7 @@ export const COUNTRIES: Country[] = [
     id: '7',
     name: 'Dubai (UAE)',
     slug: 'dubai',
-    image: '/travel-dubai.jpeg',
+    image: dubaiImage,
     overview: 'Dubai is a dynamic global hub offering fast student visa processing, world-renowned UK/US branch campuses, and abundant tax-free career opportunities.',
     benefits: ['99% Visa success rate with fast processing', 'No IELTS required for most institutions', 'Branch campuses of top UK/US universities', 'Tax-free job opportunities'],
     universities: ['Heriot-Watt University Dubai', 'Middlesex University Dubai', 'University of Wollongong Dubai', 'Canadian University Dubai'],
@@ -91,7 +102,7 @@ export const COUNTRIES: Country[] = [
     id: '8',
     name: 'Ireland',
     slug: 'ireland',
-    image: '/destination/ireland.jpg',
+    image: irelandImage,
     overview: 'Ireland is a premier English-speaking European technology hub, offering 2-year post-study work visas and direct access to global pharmaceutical and tech giants.',
     benefits: ['2-year Third Level Graduate Scheme (stay back)', '100% English-speaking environment', 'European headquarters for Google, Apple & Pfizer', 'High graduate employability & quality of life'],
     universities: ['Trinity College Dublin', 'University College Dublin (UCD)', 'University of Galway', 'University College Cork (UCC)'],
@@ -103,7 +114,7 @@ export const COUNTRIES: Country[] = [
     id: '9',
     name: 'Spain',
     slug: 'spain',
-    image: '/destination/spain.jpg',
+    image: spainImage,
     overview: 'Spain combines world-renowned business schools and historical universities with a vibrant Mediterranean lifestyle, affordable living, and easy travel across Europe.',
     benefits: ['Highly affordable public university tuition', 'Access to the entire Schengen Area', 'Opportunity to master the Spanish language', 'Post-study job search visa option'],
     universities: ['University of Barcelona', 'Autonomous University of Madrid', 'IE University', 'University of Valencia'],
@@ -115,7 +126,7 @@ export const COUNTRIES: Country[] = [
     id: '10',
     name: 'Germany',
     slug: 'germany',
-    image: '/destination/germany.jpg',
+    image: germanyImage,
     overview: 'Germany is a global engineering and scientific leader offering zero or low tuition fees at public universities, robust industry connections, and an 18-month post-study work permit.',
     benefits: ['No or very low tuition fees at public universities', '18-month post-study work permit for graduates', 'World-leading engineering & research programs', 'Part-time work permitted (up to 140 full days/year)'],
     universities: ['Technical University of Munich (TUM)', 'Ludwig Maximilian University of Munich', 'Heidelberg University', 'RWTH Aachen University'],
@@ -127,7 +138,7 @@ export const COUNTRIES: Country[] = [
     id: '11',
     name: 'France',
     slug: 'france',
-    image: '/destination/france.webp',
+    image: franceImage,
     overview: 'France offers prestigious Grandes Écoles, world-class research institutions, heavily subsidized student services, and a 2-year post-study work visa for master\'s graduates.',
     benefits: ['Subsidized tuition rates & housing assistance (CAF)', '2-year post-study work permit (APS)', 'Rich cultural heritage & central European location', 'Over 1,500 programs taught entirely in English'],
     universities: ['Sorbonne University', 'Sciences Po', 'École Polytechnique', 'Grenoble Alpes University'],
@@ -139,7 +150,7 @@ export const COUNTRIES: Country[] = [
     id: '12',
     name: 'Italy',
     slug: 'italy',
-    image: '/destination/italy.jpg',
+    image: italyImage,
     overview: 'Italy boasts the oldest universities in the Western world, outstanding design, architecture, and medical programs, combined with generous regional scholarships and low living costs.',
     benefits: ['Generous regional DSU scholarships & tuition waivers', '12-month post-study job search permit', 'Rich architectural, artistic & culinary excellence', 'Wide selection of English-taught degree programs'],
     universities: ['Politecnico di Milano', 'University of Bologna', 'Sapienza University of Rome', 'University of Padua'],
@@ -151,7 +162,7 @@ export const COUNTRIES: Country[] = [
     id: '13',
     name: 'Sweden',
     slug: 'sweden',
-    image: '/destination/sweden.jpg',
+    image: swedenImage,
     overview: 'Sweden is the home of the Nobel Prize and a global pioneer in sustainability and innovation, offering an informal, collaborative academic culture and a 1-year post-study work permit.',
     benefits: ['1-year post-study work permit to seek employment', 'No limit on part-time work hours during studies', 'Home to global brands like Spotify, IKEA & Ericsson', 'Over 1,000 master’s programs taught in English'],
     universities: ['Lund University', 'KTH Royal Institute of Technology', 'Uppsala University', 'Stockholm University'],
