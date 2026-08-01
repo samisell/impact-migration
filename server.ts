@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import pkg from 'pg';
@@ -129,7 +130,9 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  app.use(cors({ origin: true, credentials: true }));
   app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
   // API Health Check
   app.get('/api/health', async (req, res) => {
