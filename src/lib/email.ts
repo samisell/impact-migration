@@ -39,7 +39,30 @@ export async function sendEmailNotification(payload: EmailPayload): Promise<{ su
   const fullText = bodyLines.join('\n');
 
   try {
-    // Attempt 1: Send via FormSubmit.co AJAX to recipient
+    // Attempt 1: Send via server-side SMTP endpoint
+    const response = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        to: recipientEmail,
+        subject: `[${payload.formName}] ${payload.subject}`,
+        text: fullText,
+        replyTo: payload.senderEmail || undefined,
+      }),
+    });
+
+    if (response.ok) {
+      console.log(`Email successfully dispatched via SMTP for ${payload.formName}`);
+      return { success: true, method: 'smtp' };
+    }
+  } catch (err) {
+    console.warn('SMTP endpoint unavailable, falling back to FormSubmit', err);
+  }
+
+  try {
+    // Attempt 2: Send via FormSubmit.co AJAX as fallback
     const response = await fetch(`https://formsubmit.co/ajax/${recipientEmail}`, {
       method: 'POST',
       headers: {

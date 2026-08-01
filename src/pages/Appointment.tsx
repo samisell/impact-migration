@@ -3,8 +3,7 @@ import { motion } from 'motion/react';
 import { Calendar, CheckCircle2, Loader2, Sparkles, PhoneCall, Send, GraduationCap, Globe, Clock, ShieldCheck, HeartHandshake } from 'lucide-react';
 import { AppointmentLead } from '../types';
 import { sendEmailNotification } from '../lib/email';
-import { databases } from '../lib/appwrite';
-import { ID } from 'appwrite';
+import { submitAppointment } from '../lib/api';
 
 export const Appointment = () => {
   const [formData, setFormData] = useState<AppointmentLead>({
@@ -77,23 +76,18 @@ export const Appointment = () => {
         }
       });
 
-      // Optionally save to Appwrite if configured
-      if (databaseId && collectionId) {
-        await databases.createDocument(
-          databaseId,
-          collectionId,
-          ID.unique(),
-          {
-            fullName: `${formData.firstName} ${formData.lastName}`,
-            email: formData.email,
-            phone: formData.phone,
-            preferredCountry: formData.destination,
-            educationLevel: formData.studyLevel,
-            message: `Appointment request: ${formData.counsellingMode} counselling, starting ${formData.startDate}, funding: ${formData.fundingSource}`,
-            createdAt: new Date().toISOString()
-          }
-        );
-      }
+      // Save appointment to PostgreSQL database
+      await submitAppointment({
+        fullName: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        phone: formData.phone,
+        preferredCountry: formData.destination,
+        studyLevel: formData.studyLevel,
+        counsellingMode: formData.counsellingMode,
+        startDate: formData.startDate,
+        fundingSource: formData.fundingSource,
+        message: `Appointment request: ${formData.counsellingMode} counselling, starting ${formData.startDate}, funding: ${formData.fundingSource}`,
+      });
 
       setIsSuccess(true);
     } catch (err) {

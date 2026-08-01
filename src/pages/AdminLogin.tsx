@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Mail, Lock, Loader2, Globe, ArrowRight } from 'lucide-react';
-import { account } from '../lib/appwrite';
+import { adminLogin } from '../lib/api';
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -17,7 +17,8 @@ const AdminLogin = () => {
     setError(null);
 
     try {
-      await account.createEmailPasswordSession(email, password);
+      const res = await adminLogin(email, password);
+      localStorage.setItem('admin_user', JSON.stringify(res.user));
       navigate('/admin');
     } catch (err: any) {
       console.error('Login error:', err);

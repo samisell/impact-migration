@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, Send, CheckCircle2, Loader2, Sparkles } from 'lucide-react';
 import { sendEmailNotification } from '../lib/email';
+import { subscribeNewsletter } from '../lib/api';
 
 interface NewsletterSubscribeProps {
   variant?: 'banner' | 'card' | 'footer';
@@ -26,6 +27,8 @@ export const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({
     setIsSubmitting(true);
 
     try {
+      await subscribeNewsletter(email);
+
       await sendEmailNotification({
         formName: 'Newsletter Subscription',
         subject: `New Newsletter Subscriber - ${email}`,

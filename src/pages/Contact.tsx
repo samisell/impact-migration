@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, Phone, MapPin, Send, Facebook, Twitter, Instagram, Linkedin, Loader2, CheckCircle, Navigation } from 'lucide-react';
-import { databases } from '../lib/appwrite';
-import { ID } from 'appwrite';
 import { ContactMessage } from '../types';
 import { CONTACT_INFO } from '../constants';
 import { sendEmailNotification } from '../lib/email';
+import { submitContact } from '../lib/api';
 
 const Contact = () => {
   const [formData, setFormData] = useState<ContactMessage>({
@@ -47,19 +46,14 @@ const Contact = () => {
         }
       });
 
-      if (databaseId && collectionId) {
-        await databases.createDocument(
-          databaseId,
-          collectionId,
-          ID.unique(),
-          {
-            ...formData,
-            createdAt: new Date().toISOString()
-          }
-        );
-      } else {
-        console.log('Appwrite not configured. Form data:', formData);
-      }
+      // Save contact message to PostgreSQL database
+      await submitContact({
+        fullName: formData.fullName,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      });
+
       setIsSuccess(true);
       setFormData({ fullName: '', email: '', subject: '', message: '' });
     } catch (err: any) {

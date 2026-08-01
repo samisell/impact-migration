@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CheckCircle, Send, Loader2, Building2, UserCheck, Sparkles, GraduationCap, ArrowRight } from 'lucide-react';
-import { databases } from '../lib/appwrite';
-import { ID } from 'appwrite';
 import { Lead, PartnerLead } from '../types';
 import { sendEmailNotification } from '../lib/email';
+import { submitApplication } from '../lib/api';
 
 export const Apply = () => {
   const [activeTab, setActiveTab] = useState<'student' | 'partner'>('student');
@@ -77,19 +76,19 @@ export const Apply = () => {
         }
       });
 
-      if (databaseId && collectionId) {
-        await databases.createDocument(
-          databaseId,
-          collectionId,
-          ID.unique(),
-          {
-            ...studentForm,
-            createdAt: new Date().toISOString()
-          }
-        );
-      } else {
-        console.log('Appwrite not configured. Student Form:', studentForm);
-      }
+      // Save application to PostgreSQL database
+      await submitApplication({
+        fullName: studentForm.fullName,
+        email: studentForm.email,
+        phone: studentForm.phone,
+        preferredCountry: studentForm.preferredCountry,
+        courseType: studentForm.courseType,
+        courseOfInterest: studentForm.courseOfInterest,
+        educationLevel: studentForm.educationLevel,
+        fundingSource: studentForm.fundingSource,
+        message: studentForm.message,
+      });
+
       setSubmittedType('student');
       setIsSuccess(true);
     } catch (err: any) {
@@ -128,19 +127,19 @@ export const Apply = () => {
         }
       });
 
-      if (databaseId && collectionId) {
-        await databases.createDocument(
-          databaseId,
-          collectionId,
-          ID.unique(),
-          {
-            ...partnerForm,
-            createdAt: new Date().toISOString()
-          }
-        );
-      } else {
-        console.log('Appwrite not configured. Partner Form:', partnerForm);
-      }
+      // Save partner application to PostgreSQL database
+      await submitApplication({
+        fullName: partnerForm.contactPersonName || partnerForm.corporateName,
+        email: partnerForm.contactPersonEmail || partnerForm.corporateEmail,
+        phone: partnerForm.contactPersonPhone || partnerForm.corporatePhone,
+        preferredCountry: partnerForm.corporateAddress,
+        courseType: partnerForm.type,
+        courseOfInterest: `Partner Registration (${partnerForm.type})`,
+        educationLevel: `${partnerForm.numberOfEmployees} employees`,
+        fundingSource: `Reg Year: ${partnerForm.yearOfRegistration}`,
+        message: `Corporate: ${partnerForm.corporateName}, Contact Position: ${partnerForm.contactPersonPosition}`,
+      });
+
       setSubmittedType('partner');
       setIsSuccess(true);
     } catch (err: any) {

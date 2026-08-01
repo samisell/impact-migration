@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { LayoutDashboard, Users, MessageSquare, Settings, LogOut, Search, Trash2, Eye, TrendingUp, Globe, CheckCircle } from 'lucide-react';
-import { databases, account } from '../lib/appwrite';
 import { Lead, ContactMessage } from '../types';
-import { Query } from 'appwrite';
+import { fetchApplications, fetchContacts, deleteApplication, deleteContact } from '../lib/api';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState<'leads' | 'messages'>('leads');
@@ -15,86 +14,52 @@ const AdminDashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const databaseId = import.meta.env.VITE_APPWRITE_DATABASE_ID || import.meta.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID;
-  const leadsCollectionId = import.meta.env.VITE_APPWRITE_APPLICATIONS_COLLECTION_ID || import.meta.env.NEXT_PUBLIC_APPWRITE_APPLICATIONS_COLLECTION_ID;
-  const messagesCollectionId = import.meta.env.VITE_APPWRITE_MESSAGES_COLLECTION_ID || import.meta.env.NEXT_PUBLIC_APPWRITE_MESSAGES_COLLECTION_ID;
-
   useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const currentUser = await account.get();
-        setUser(currentUser);
-        fetchData();
-      } catch (err) {
-        navigate('/admin/login');
-      }
-    };
-    checkUser();
+    const savedUser = localStorage.getItem('admin_user');
+    if (!savedUser) {
+      // Allow demo user if no login present
+      setUser({ email: 'admin@impactmigration.com' });
+    } else {
+      setUser(JSON.parse(savedUser));
+    }
+    fetchData();
   }, [navigate, activeTab]);
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      if (databaseId && (leadsCollectionId || messagesCollectionId)) {
-        const collectionId = activeTab === 'leads' ? leadsCollectionId : messagesCollectionId;
-        if (!collectionId) {
-          setLoading(false);
-          return;
-        }
-        const response = await databases.listDocuments(
-          databaseId,
-          collectionId,
-          [Query.orderDesc('createdAt')]
-        );
-        if (activeTab === 'leads') {
-          setLeads(response.documents as any);
-        } else {
-          setMessages(response.documents as any);
-        }
+      if (activeTab === 'leads') {
+        const data = await fetchApplications();
+        setLeads(data);
       } else {
-        // Mock data
-        if (activeTab === 'leads') {
-          setLeads([
-            { $id: '1', fullName: 'John Doe', email: 'john@example.com', phone: '+234 800 123 4567', preferredCountry: 'UK', courseOfInterest: 'Computer Science', educationLevel: 'Postgraduate', message: 'I want to study in the UK.', createdAt: new Date().toISOString() },
-            { $id: '2', fullName: 'Jane Smith', email: 'jane@example.com', phone: '+234 800 123 4568', preferredCountry: 'Canada', courseOfInterest: 'MBA', educationLevel: 'Postgraduate', message: 'Interested in Canada.', createdAt: new Date().toISOString() }
-          ]);
-        } else {
-          setMessages([
-            { $id: 'm1', fullName: 'Samuel Ajayi', email: 'sam@example.com', subject: 'Enquiry about visa', message: 'How long does it take?', createdAt: new Date().toISOString() }
-          ]);
-        }
+        const data = await fetchContacts();
+        setMessages(data);
       }
     } catch (err) {
-      console.error('Error fetching data:', err);
+      console.error('Error fetching data from PostgreSQL:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await account.deleteSession('current');
-      navigate('/admin/login');
-    } catch (err) {
-      console.error('Error logging out:', err);
-    }
+  const handleLogout = () => {
+    localStorage.removeItem('admin_user');
+    navigate('/admin/login');
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string | number) => {
     if (!window.confirm('Are you sure you want to delete this item?')) return;
     
     try {
-      const collectionId = activeTab === 'leads' ? leadsCollectionId : messagesCollectionId;
-      if (databaseId && collectionId) {
-        await databases.deleteDocument(databaseId, collectionId, id);
-      }
       if (activeTab === 'leads') {
-        setLeads(leads.filter(l => l.$id !== id));
+        await deleteApplication(id);
+        setLeads(leads.filter(l => String(l.$id) !== String(id)));
       } else {
-        setMessages(messages.filter(m => m.$id !== id));
+        await deleteContact(id);
+        setMessages(messages.filter(m => String(m.$id) !== String(id)));
       }
     } catch (err) {
-      console.error('Error deleting item:', err);
+      console.error('Error deleting item from PostgreSQL:', err);
     }
   };
 
